@@ -19,8 +19,8 @@ CREATE DATABASE metadb WITH OWNER metadb_rw
 GRANT CONNECT ON DATABASE metadb TO metadb_ro
 ;
 
-ALTER USER metadb_ro WITH PASSWORD 'M3T4dB_BS'
+ALTER USER metadb_ro WITH PASSWORD 'metadb'
 ;
 
-ALTER USER metadb_rw WITH PASSWORD '!L4f4Y3Tt3_C0Ll3G3!'
+ALTER USER metadb_rw WITH PASSWORD 'metadb'
 ;
