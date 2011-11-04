@@ -1,0 +1,22 @@
+{
+  "author": [
+	"Long Ho <holevietlong@gmail.com> (http://www.azndezign.com)",
+	"Haruki Yamaguchi <haruki.yamaguchi1989@gmail.com>"
+  ],
+  "name": "metadb-core",
+  "description": "Backend Service for MetaDB that handles database connections, ORM and business logic. Exposed JSON-RPC compliant API.",
+  "version": "v0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/LafColDevs/metadb-core.git"
+  },
+  "main": "server.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "engines": {
+    "node": ">= 0.4.12"
+  },
+  "dependencies": { },
+  "devDependencies": {}
+}
