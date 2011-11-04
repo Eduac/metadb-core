@@ -1,0 +1,15 @@
+INSERT INTO ELEMENTS VALUES('contributor', 'dublin');
+INSERT INTO ELEMENTS VALUES('coverage', 'dublin');
+INSERT INTO ELEMENTS VALUES('creator', 'dublin');
+INSERT INTO ELEMENTS VALUES('date', 'dublin');
+INSERT INTO ELEMENTS VALUES('description', 'dublin');
+INSERT INTO ELEMENTS VALUES('format', 'dublin');
+INSERT INTO ELEMENTS VALUES('identifier', 'dublin');
+INSERT INTO ELEMENTS VALUES('language', 'dublin');
+INSERT INTO ELEMENTS VALUES('publisher', 'dublin');
+INSERT INTO ELEMENTS VALUES('relation', 'dublin');
+INSERT INTO ELEMENTS VALUES('rights', 'dublin');
+INSERT INTO ELEMENTS VALUES('source', 'dublin');
+INSERT INTO ELEMENTS VALUES('subject', 'dublin');
+INSERT INTO ELEMENTS VALUES('title', 'dublin');
+INSERT INTO ELEMENTS VALUES('type', 'dublin');
