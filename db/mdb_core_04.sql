@@ -14,6 +14,14 @@ INSERT INTO elements VALUES('c67ef61c-080a-11e1-be50-0800200c9a66', 'dublin', 's
 INSERT INTO elements VALUES('c67ef61d-080a-11e1-be50-0800200c9a66', 'dublin', 'title');
 INSERT INTO elements VALUES('c67ef61e-080a-11e1-be50-0800200c9a66', 'dublin', 'type');
 
+DROP TYPE IF EXISTS role CASCADE
+;
+
+CREATE TYPE role AS ENUM ('admin', 'worker')
+;
+
+ALTER TABLE profiles ADD COLUMN role ROLE DEFAULT 'worker'
+;
 
 UPDATE properties SET value = '4' WHERE name = 'version'
 ;
