@@ -28,3 +28,6 @@ ADD CONSTRAINT it_id__fk FOREIGN KEY (item_id) REFERENCES items MATCH FULL ON DE
 ALTER TABLE project_metadata
 ADD CONSTRAINT pm_project_id__fk FOREIGN KEY (project_id) REFERENCES projects MATCH FULL ON DELETE CASCADE
 ;
+
+UPDATE properties SET value = '3' WHERE name = 'version'
+;

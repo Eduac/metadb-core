@@ -1,43 +1,43 @@
-DROP TABLE IF EXISTS profiles
+DROP TABLE IF EXISTS profiles CASCADE
 ;
 
-DROP TABLE IF EXISTS permissions
+DROP TABLE IF EXISTS permissions CASCADE
 ;
 
-DROP TABLE IF EXISTS projects
+DROP TABLE IF EXISTS projects CASCADE
 ;
 
-DROP TABLE IF EXISTS features
+DROP TABLE IF EXISTS features CASCADE
 ;
 
-DROP TABLE IF EXISTS controlled_vocabs
+DROP TABLE IF EXISTS controlled_vocabs CASCADE
 ;
 
-DROP TABLE IF EXISTS project_metadata
+DROP TABLE IF EXISTS project_metadata CASCADE
 ;
 
-DROP TABLE IF EXISTS project_features
+DROP TABLE IF EXISTS project_features CASCADE
 ;
 
-DROP TABLE IF EXISTS elements
+DROP TABLE IF EXISTS elements CASCADE
 ;
 
-DROP TABLE IF EXISTS settings
+DROP TABLE IF EXISTS settings CASCADE
 ;
 
-DROP TYPE IF EXISTS derivative
+DROP TYPE IF EXISTS derivative CASCADE
 ;
 
-DROP TYPE IF EXISTS brand
+DROP TYPE IF EXISTS brand CASCADE
 ;
 
-DROP TABLE IF EXISTS items
+DROP TABLE IF EXISTS items CASCADE
 ;
 
-DROP TABLE IF EXISTS item_data
+DROP TABLE IF EXISTS item_data CASCADE
 ;
 
-DROP TABLE IF EXISTS properties
+DROP TABLE IF EXISTS properties CASCADE
 ;
 
 CREATE TABLE profiles (
@@ -116,12 +116,6 @@ CREATE TYPE derivative AS ENUM ('thumbnail', 'zoom', 'custom', 'full')
 ;
 
 CREATE TYPE brand AS ENUM ('under', 'over', 'none')
-;
-
-CREATE TABLE derivatives (
-	derivative_id CHAR(36) NOT NULL PRIMARY KEY,
-	name VARCHAR(40) NOT NULL UNIQUE
-)
 ;
 
 CREATE TABLE project_metadata (
