@@ -1,4 +1,4 @@
-MetaDB Things to Keep in Mind for Rails version development
+MetaDB Things to Keep in Mind for Node.js version development
 
 General
 ===================
@@ -66,17 +66,15 @@ Development Side
 
 General
 -------------------
-
--Need way to store DB structure. Migration file?
-
+-Database versioning
 -ID for all tables (provided by default via RoR)
 -Use Bit Arrays for simple t/f control
 
 Major UI/Backend Design Improvements
 -------------------
 
--Easier Configuration/Installation (RoR should take care of most. 
-YAML config files + Capistrano or other deploy mechanism)
+-Easier Configuration/Installation (UI should be fine with Express.
+Some other mechanism for backend config)
 
 -Need to figure out where to store master images.
 
@@ -95,13 +93,12 @@ YAML config files + Capistrano or other deploy mechanism)
 	-Direct upload
 	
 -Better report generation
--Better logging (general/errors both) <--Rails has a logger mechanism
+-Better logging (general/errors both). NO LOGS IN DATABASE.
 
 -Better user feedback mechanism. (alerts/emails etc)
+-Push?
 
 -Better concurrency (parsing/editing)
-
--Use RMagick instead of direct ImageMagick calls
 
 -Faster search.
 
