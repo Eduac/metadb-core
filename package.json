@@ -17,6 +17,9 @@
   "engines": {
     "node": ">= 0.4.12"
   },
-  "dependencies": { },
+  "dependencies": { 
+    "njrpc": "1.0.1",
+    "restify": "0.5.4"
+    },
   "devDependencies": {}
 }
