@@ -1,7 +1,7 @@
 {
   "author": [
 	"Long Ho <holevietlong@gmail.com> (http://www.azndezign.com)",
-	"Haruki Yamaguchi <haruki.yamaguchi1989@gmail.com>"
+	"Haruki Yamaguchi <m.haruki.yamaguchi@gmail.com>"
   ],
   "name": "metadb-core",
   "description": "Backend Service for MetaDB that handles database connections, ORM and business logic. Exposed JSON-RPC compliant API.",
@@ -19,7 +19,8 @@
   },
   "dependencies": { 
     "njrpc": "1.0.1",
-    "restify": "0.5.4"
-    },
+    "restify": "0.5.4",
+  	"pg" : "0.6.6"
+	},
   "devDependencies": {}
 }
