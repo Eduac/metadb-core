@@ -3,15 +3,17 @@ var njrpc = require('njrpc'),
 	AuthInterceptor = require('./models/AuthInterceptor'),
 	PORT = 3000;
 
+/*
 var daoList = { 
     AuthenticationDao : (require('./models/dao/AuthenticationDao')),
     VocabDao : (require('./models/dao/VocabDao')),
     ProfileDao: (require('./models/dao/ProfileDao'))   
     };
+*/
 
 var handlers = [ 
-        //(require('./models/handlers/AuthenticationHandler'))(daoList),
-        //(require('./models/handlers/VocabHandler'))(daoList)
+		(require('./models/handlers/AuthenticationHandler')),
+		(require('./models/handlers/VocabHandler'))
     ];
 
 var services = {
