@@ -31,9 +31,6 @@ GRANT SELECT ON TABLE items TO metadb_ro
 GRANT SELECT ON TABLE item_data TO metadb_ro
 ;
 
-GRANT SELECT ON TABLE derivatives TO metadb_ro
-;
-
 ALTER TABLE profiles OWNER TO metadb_rw
 ;
 
@@ -65,9 +62,6 @@ ALTER TABLE items OWNER TO metadb_rw
 ;
 
 ALTER TABLE item_data OWNER TO metadb_rw
-;
-
-ALTER TABLE derivatives OWNER TO metadb_rw
 ;
 
 ALTER TABLE properties OWNER TO metadb_rw
