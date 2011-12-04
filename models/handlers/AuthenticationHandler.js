@@ -4,7 +4,7 @@ var AuthenticationHandler = (function () {
 		name : 'AuthenticationHandler',
 		authenticate : function (username, password) {
 			if (username === 'metadb' && password === '123123') {
-				return uuid.v4();
+				return uuid();
 			}
 			return null;
 		}
