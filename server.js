@@ -3,14 +3,15 @@ var njrpc = require('njrpc'),
 	AuthInterceptor = require('./models/AuthInterceptor'),
 	PORT = 3000;
 
-var daos = { 
-    //AuthenticationDao : new (require('./models/dao/AuthenticationDao'))(),
-    VocabDao : (require('./models/dao/VocabDao'))
+var daoList = { 
+    AuthenticationDao : (require('./models/dao/AuthenticationDao')),
+    VocabDao : (require('./models/dao/VocabDao')),
+    ProfileDao: (require('./models/dao/ProfileDao'))   
     };
 
 var handlers = [ 
-        (require('./models/handlers/AuthenticationHandler')),
-        (require('./models/handlers/VocabHandler'))
+        //(require('./models/handlers/AuthenticationHandler'))(daoList),
+        //(require('./models/handlers/VocabHandler'))(daoList)
     ];
 
 var services = {
@@ -23,6 +24,4 @@ njrpc.register(
 http.createServer(function (req, res) {
 	njrpc.handle(req, res, AuthInterceptor.process);
 }).listen(PORT);
-	
-
 

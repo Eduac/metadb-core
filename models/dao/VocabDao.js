@@ -13,8 +13,12 @@ var VocabDao = (function () {
                              );
             });
         },
-        removeVocab: function ( vocabId, reason ) {
-            return null;
+        removeVocab: function ( vocabId ) {
+            pg.connect(connectionString, function (err, client) {
+                client.query('DELETE FROM vocabs WHERE vocab_id = ?', 
+                              [ vocabId ]
+                            );
+            });
         }
     }
 })();

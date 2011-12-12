@@ -21,7 +21,8 @@
     "njrpc": "latest",
     "node-uuid" : "latest",
     "restify": "0.5.4",
-    "pg" : "0.6.6"
+    "pg" : "0.6.6",
+    "sha1" : "latest"
   },
   "devDependencies": {}
 }
