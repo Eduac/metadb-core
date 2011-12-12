@@ -13,21 +13,20 @@ return {
 			var hash = sha1(password);
 			var correctHash = null;
 			var query = pg.connect( connectionString, 
-															function (err, client) {
-																client.query('SELECT FROM profiles WHERE username = $1',
-																							[ username ]
-																					);
-															}
-														);
+						function (err, client) {
+							client.query('SELECT FROM profiles WHERE username = $1',
+							[ username ]);
+						}
+						);
+						
 			query.on('row', function(row) {
-                        correctHash = row.password;
-                    	}
-							);
+                        	correctHash = row.password;
+                    	});
 			//Check if hash matches.
 			return 
 				(hash == correctHash)
 				? true 
-				:	false;
+				: false;
 		}
   }
 })();
