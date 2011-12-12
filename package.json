@@ -4,7 +4,7 @@
 	"Haruki Yamaguchi <m.haruki.yamaguchi@gmail.com>"
   ],
   "name": "metadb-core",
-  "description": "Backend Service for MetaDB that handles database connections, ORM and business logic. Exposed JSON-RPC compliant API.",
+  "description": "Backend Service for MetaDB that handles database connections, ORM and business logic. Exposes a JSON-RPC compliant API.",
   "version": "v0.1.0",
   "repository": {
     "type": "git",
