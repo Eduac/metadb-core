@@ -3,6 +3,7 @@ var njrpc = require('njrpc'),
 	AuthInterceptor = require('./models/AuthInterceptor'),
 	PORT = 3000;
 
+// TODO Need to decide how best to do DAO passing...
 /*
 var daoList = { 
     AuthenticationDao : (require('./models/dao/AuthenticationDao')),
