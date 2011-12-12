@@ -6,8 +6,7 @@ var pg = require('pg');
 var connectionString = "postgres://metadb_rw:metadb@localhost:5432/metadb";
 
 var AuthenticationDao = (function () { 
-
-	return {
+return {
 		name: 'AuthenticationDao', 
 
 		authenticate: function ( username, password ) {
@@ -15,8 +14,8 @@ var AuthenticationDao = (function () {
 			var correctHash = null;
 			var query = pg.connect( connectionString, 
 															function (err, client) {
-															client.query('SELECT FROM profiles WHERE username = $1',
-																						[ username ]
+																client.query('SELECT FROM profiles WHERE username = $1',
+																							[ username ]
 																					);
 															}
 														);
@@ -33,8 +32,3 @@ var AuthenticationDao = (function () {
   }
 })();
 module.exports = AuthenticationDao;
-
-
-                
-                
-
