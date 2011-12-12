@@ -1,4 +1,4 @@
-var VocabHandler = (function (daoList) {
+var VocabHandler = (function () {
     return {
         name : 'VocabHandler', 
         
