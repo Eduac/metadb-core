@@ -11,7 +11,7 @@ var ProfileDao = (function () {
 			//Get the user row.
 			var query = pg.connect( connectionString, function (err, client) {
 				client.query('SELECT FROM profiles WHERE username = $1', [ username ]);
-        });
+			});
 			
 			//Construct profile json.
 			query.on('row', function(row) {
@@ -25,7 +25,7 @@ var ProfileDao = (function () {
 				profile['role'] = row.role;
 			});
 			return profile;
-    }
+		}
 	}
 })();
 module.exports = ProfileDao;
