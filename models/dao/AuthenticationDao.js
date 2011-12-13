@@ -6,7 +6,7 @@ var pg = require('pg');
 var connectionString = "postgres://metadb_rw:metadb@localhost:5432/metadb";
 
 var AuthenticationDao = (function () { 
-return {
+	return {
 		name: 'AuthenticationDao', 
 
 		authenticate: function ( username, password ) {
@@ -28,6 +28,6 @@ return {
 				? true 
 				: false;
 		}
-  }
+	}
 })();
 module.exports = AuthenticationDao;

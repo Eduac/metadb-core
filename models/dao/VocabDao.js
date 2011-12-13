@@ -2,7 +2,7 @@ var uuid = require('node-uuid');
 var pg = require('pg');
 var connectionString = "postgres://metadb_rw:metadb@localhost:5432/metadb";
 
-var VocabDao = (function () {
+var VocabDao = function () {
 	return {
 		name : 'VocabDao',
 		
@@ -20,5 +20,5 @@ var VocabDao = (function () {
 			});
 		}
 	}
-})();
+}
 module.exports = VocabDao;

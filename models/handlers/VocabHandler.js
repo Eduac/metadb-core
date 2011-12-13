@@ -1,4 +1,4 @@
-var VocabHandler = (function () {
+var VocabHandler = function (vocabDao) {
     return {
         name : 'VocabHandler', 
         
@@ -18,5 +18,5 @@ var VocabHandler = (function () {
             //blah
         }
     }
-})();
+}
 module.exports = VocabHandler;

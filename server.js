@@ -1,28 +1,21 @@
-var njrpc = require('njrpc'),
-	http = require('http'),
-	AuthInterceptor = require('./models/AuthInterceptor'),
-	PORT = 3000;
+var njrpc = require('njrpc')
+,	http = require('http')
+,	AuthInterceptor = require('./models/AuthInterceptor')
+,	PORT = 3000
 
-// TODO Need to decide how best to do DAO passing...
-/*
-var daoList = { 
-    AuthenticationDao : (require('./models/dao/AuthenticationDao')),
-    VocabDao : (require('./models/dao/VocabDao')),
-    ProfileDao: (require('./models/dao/ProfileDao'))   
-    };
-*/
+,	daoList = { 
+    	AuthenticationDao : require('./models/dao/AuthenticationDao'),
+	    VocabDao : require('./models/dao/VocabDao'),
+	    ProfileDao: require('./models/dao/ProfileDao'),
+	    SessionDao: require('./models/dao/SessionDao')   
+	}
 
-var handlers = [ 
-		(require('./models/handlers/AuthenticationHandler')),
-		(require('./models/handlers/VocabHandler'))
+,	handlers = [ 
+		new (require('./models/handlers/AuthenticationHandler'))(daoList.AuthenticationDao, daoList.SessionDao, daoList.ProfileDao),
+		new (require('./models/handlers/VocabHandler'))(daoList.VocabDao)
     ];
 
-var services = {
-    };
-
-njrpc.register(
-    handlers
-);
+njrpc.register(handlers);
 	
 http.createServer(function (req, res) {
 	njrpc.handle(req, res, AuthInterceptor.process);

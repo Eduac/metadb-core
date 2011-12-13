@@ -1,8 +1,5 @@
 var uuid = require('node-uuid');
-var AuthenticationHandler = (function () {
-	var AuthDao = (require('../dao/AuthenticationDao')); 
-	var SessionDao = (require('../dao/SessionDao'));
-	var ProfileDao = (require('../dao/ProfileDao'));
+var AuthenticationHandler = function (authDao, sessionDao, profileDao) {
 	
 	return {
 		name : 'AuthenticationHandler',
@@ -21,5 +18,5 @@ var AuthenticationHandler = (function () {
 			}
 		}
 	}
-})();
+}
 module.exports = AuthenticationHandler;

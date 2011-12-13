@@ -2,7 +2,7 @@ var uuid = require('node-uuid');
 var pg = require('pg');
 var connectionString = "postgres://metadb_rw:metadb@localhost:5432/metadb";
 
-var SessionDao = (function () { 
+var SessionDao = function () { 
     return {
         name: 'SessionDao',
         createSession: function (profile_id) {
@@ -18,7 +18,7 @@ var SessionDao = (function () {
 
         destroySession: function () {}
     }
-})();
+}
 module.exports = SessionDao;
 
 
