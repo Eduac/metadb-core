@@ -6,7 +6,7 @@ var VocabHandler = function (vocabDao) {
                 vocabDAO.createVocab(vocabName, contents);
         },
         
-        get: function (id) {
+        findById: function (id) {
             //blah
         },
         
@@ -14,7 +14,7 @@ var VocabHandler = function (vocabDao) {
             //blah
         },
         
-        remove: function (id, reason) {
+        deleteById: function (id, reason) {
             //blah
         }
     }

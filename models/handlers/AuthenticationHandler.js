@@ -7,15 +7,13 @@ var AuthenticationHandler = function (authDao, sessionDao, profileDao) {
 		//Auth success -> return new session ID
 		//Auth failure -> return null
 		//TODO: Try-Catch 
-		authenticate : function (username, password) {
-			if (authDao.authenticate(username, password)) {
-				var profile_id = profileDao.getProfile(username);
-				var uuid = sessionDao.createSession(profile_id);
-				return uuid;
-			}
-			else {
-				return null;
-			}
+		authenticate : function (username, password, outFn) {
+			authDao.authenticate(username, password, function(authenticated) {
+				if (authenticated) {
+					return sessionDao.create(profileDao.findByName(username).profile_id, outFn);
+				}	
+				return outFn(null);			 
+			});
 		}
 	}
 }
