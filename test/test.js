@@ -3,3 +3,4 @@ var assert = require('assert'),
 	
 assert.ok(uuid());
 console.log(uuid());
+
