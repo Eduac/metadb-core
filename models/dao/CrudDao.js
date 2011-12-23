@@ -2,50 +2,54 @@ var pg = require('pg');
 var Class = require('../Class');
 
 var CrudDao = Class.extend({
-	
 	init : function () {
 		this.connString = 'postgres://metadb_rw:metadb@localhost:5432/metadb';
 		this.pg = pg;
 	},
-	findByIdQuery : '',
+	queries : {
+		create : '',
+		findById : '',
+		update : '',
+		deleteById : ''
+	},
+	connect : function (callbackFn) {
+		pg.connect(this.connString, callbackFn);
+	},
 	findById : function (id, callbackFn) {
 		var _this = this;
-		pg.connect(this.connString, function (err, client) {
-			var objects = []; 
+		this.connect(function (err, client) {
+			var object; 
 			client
-				.query(_this.findByIdQuery, [id])
+				.query(_this.queries.findById, [id])
 				.on('row', function (row) {
-					objects.push(_this.queryToObj(row));
+					object = _this.queryToObj(row);
 				})
 				.on('end', function () {
-					callbackFn(objects);
+					callbackFn(object);
 				});	
 		});
 	},
-	createQuery : '',
 	create : function (obj, callbackFn) {
 		var _this = this;
-		pg.connect(this.connString, function (err, client) { 
+		this.connect(function (err, client) { 
 			client
-				.query(_this.createQuery, _this.objToQuery(obj))
+				.query(_this.queries.create, _this.objToQuery(obj))
 				.on('end', callbackFn);
 		});
 	},
-	updateQuery : '',
 	update : function (obj, callbackFn) {
 		var _this = this;
-		pg.connect(this.connString, function (err, client) {
+		this.connect(function (err, client) {
 			client
-				.query(_this.updateQuery, _this.objToQuery(obj))
+				.query(_this.queries.update, _this.objToQuery(obj))
 				.on('end', callbackFn);
 		});
 	},
-	deleteByIdQuery : '',
 	deleteById : function (id, callbackFn) {
 		var _this = this;
-		pg.connect(this.connString, function (err, client) {
+		this.connect(function (err, client) {
 			client
-				.query(_this.deleteByIdQuery, [id])
+				.query(_this.queries.deleteById, [id])
 				.on('end', callbackFn);
 		});		
 	},

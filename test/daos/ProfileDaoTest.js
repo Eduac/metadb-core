@@ -1,35 +1,33 @@
 var assert = require('assert')
 ,	pg = require('pg')
-,	profileDao = require('../../models/dao/ProfileDao');
+,	profileDao = require('../../models/dao/ProfileDao')
+,	getTestProfile = function () {
+		return {
+			username : 'test_user',
+			first_name : 'Test',
+			last_name : 'User',
+			email : 'test_user@test.com',
+			password : 'justTesting'
+		}	
+};
 	
-assert.equal(profileDao.findByIdQuery, 'SELECT * FROM profiles WHERE profile_id = $1');
+assert.equal(profileDao.queries.findById, 'SELECT * FROM profiles WHERE profile_id = $1');
 assert.ok(profileDao.findById);
 
-profileDao.findById('8b46bfa0-193b-11e1-bddb-0800200c9a66', function (profiles) {
-	assert.equal(profiles.length, 1);
-	assert.ok(profiles[0]);
-	assert.equal(profiles[0].username, 'long');
+profileDao.findById('8b46bfa0-193b-11e1-bddb-0800200c9a66', function (profile) {
+	assert.ok(profile);
+	assert.equal(profile.username, 'long');
 });
 
-var profile = {
-	username : 'test_user',
-	first_name : 'Test',
-	last_name : 'User',
-	email : 'test_user@test.com',
-	password : 'justTesting'
-}
-profile = profileDao.create(profile, function () {
-	profileDao.findById(profile.profile_id, function (profiles) {
-		assert.equal(profiles.length, 1);
-		assert.ok(profiles[0]);
-		profileDao.deleteById(profiles[0].profile_id, function () {
-			profileDao.findById(profiles[0].profile_id, function (pros) {
-				assert.equal(pros.length, 0);
+var sample = getTestProfile();
+profileDao.create(sample, function () {
+	profileDao.findById(sample.profile_id, function (profile) {
+		assert.ok(profile);
+		profileDao.deleteById(profile.profile_id, function () {
+			profileDao.findById(profile.profile_id, function (pro) {
+				assert.ok(!pro);
 				pg.end();
 			});
 		});	
 	});
 });
-	
-
-assert.ok(profile.profile_id);
