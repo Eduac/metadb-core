@@ -6,12 +6,9 @@ var AuthenticationInterceptor = (function () {
 		process : function (jReq) {
 			try {
 				_handler = jReq.method.split('.')[0];
-				if (_handler in _ignored) {
-					return;
-				}
-				if (!jReq.headers || !jReq.headers.user || !jReq.headers.token) {
+				if (_handler in _ignored) return;
+				if (!jReq.headers || !jReq.headers.user || !jReq.headers.token) 
 					throw new Error('Header/header user/header token is not present');
-				}
 			} catch (e) {
 				throw new Error('Malformed request');
 			}

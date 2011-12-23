@@ -4,7 +4,6 @@ var connectionString = "postgres://metadb_rw:metadb@localhost:5432/metadb";
 
 var VocabDao = (function () {
 	return {
-		name : 'VocabDao',
 		
 		create: function ( vocabName, contents ) {
 			pg.connect(connectionString, function (err, client) { 
