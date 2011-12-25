@@ -1,7 +1,6 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-,   createdProfileIds = []
 ,   profileDao = require('../../models/dao/ProfileDao')
 ,	getTestProfile = function () {
 		return {
@@ -38,7 +37,6 @@ vows.describe('ProfileDao').addBatch({
             topic : function () {
                 var promise = new events.EventEmitter();
                 profileDao.create(getTestProfile(), function (profile) {
-                    createdProfileIds.push(profile.id);
                     promise.emit('success', profile);
                 });
                 return promise;
@@ -64,8 +62,9 @@ vows.describe('ProfileDao').addBatch({
                     assert.ok(!profile.password); 
                 }
             },
-            teardown : function () {
-                //TODO: Need to delete created profiles here
+            teardown : function (profile) {
+                var callback = this.callback;
+                setTimeout(function () { profileDao.deleteById(profile.id, callback) }, 100);
             }
         }
     }
