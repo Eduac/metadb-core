@@ -1,7 +1,7 @@
 var njrpc = require('njrpc')
 ,	http = require('http')
 ,	AuthInterceptor = require('./models/AuthInterceptor')
-,	PORT = 3000
+,	PORT = 5000
 
 ,	daoList = { 
     	AuthenticationDao : require('./models/dao/AuthenticationDao'),
@@ -23,4 +23,4 @@ exports.start = function(port) {
 	http.createServer(function (req, res) {
 		njrpc.handle(req, res, AuthInterceptor.process);
 	}).listen(port);
-}
+};
