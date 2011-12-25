@@ -3,7 +3,7 @@ var VocabHandler = function (vocabDao) {
         name : 'VocabHandler', 
         
         create: function (vocabObj) {
-                vocabDAO.create(vocabName, contents);
+                vocabDAO.createVocab(vocabName, contents);
         },
         
         findById: function (id) {
