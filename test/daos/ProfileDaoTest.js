@@ -64,7 +64,7 @@ vows.describe('ProfileDao').addBatch({
             },
             teardown : function (profile) {
                 var callback = this.callback;
-                setTimeout(function () { profileDao.deleteById(profile.id, callback) }, 100);
+                setTimeout(function () { profileDao.deleteById(profile.id, callback); }, 100);
             }
         }
     }
