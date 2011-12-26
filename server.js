@@ -17,10 +17,6 @@ var njrpc = require('njrpc')
 
 njrpc.register(handlers);
 	
-exports.start = function(port) { 
-	port = port || PORT;
-
-	http.createServer(function (req, res) {
-		njrpc.handle(req, res, AuthInterceptor.process);
-	}).listen(port);
-};
+http.createServer(function (req, res) {
+	njrpc.handle(req, res, AuthInterceptor.process);
+}).listen(PORT);
