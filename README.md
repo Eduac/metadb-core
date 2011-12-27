@@ -1,8 +1,7 @@
 # MetaDB-Core
 
 This is a Node.js application which comprises the MetaDB web service. 
-MetaDB-UI will communicate with Core.
+Note: This is not a stand-alone application. A JSON-RPC speaking front end is required to interface with MetaDB Core.
+MetaDB UI (https://github.com/LafColDevs/metadb) is a UI layer in ExpressJS.
 
-The database used will be PostgreSQL due to the nature of heavy relationships MetaDB carries.
-
-Grab node-jsonrpc from git://github.com/longlho/node-jsonrpc.git first, then do a link since this project will potentially depends on njrpc project.
+MetaDB Core uses PostgreSQL as its database due to the nature of heavy relationships it carries.
