@@ -42,6 +42,8 @@ var SessionDao = CrudDao.extend(
 
     /******* CUSTOM *******/ 
     update : function(obj, callbackFn) {
+        var _this = this
+        ,   utcTime = new Date().getUTCMilliseconds();
         /* Reset the timer */
         clearTimeOut(_timeoutMap[obj.session_id]);
 
