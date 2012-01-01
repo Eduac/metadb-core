@@ -40,7 +40,7 @@ FILES=`ls -1 mdb_core*.sql`
 
 for FILE in $FILES
 do
-	v=`echo $FILE | grep '[0-9]\{1,\}' -o`
+	v=`echo $FILE | grep '[0-9]\{1,\}' -o | sed 's/^0//'`
 	if [ $((v)) -gt $VERSION ]; then
 		UPDATING=`echo $UPDATING $FILE`
 	fi
