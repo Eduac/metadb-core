@@ -28,7 +28,7 @@ var ProfileDao = CrudDao.extend({
 	},
 	queryToObj : function (row) {
 		return {
-            id : row.profile_id,
+			id : row.profile_id,
 			profile_id : row.profile_id,
 			username : row.username,
 			email : row.email,
