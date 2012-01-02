@@ -5,7 +5,7 @@ var assert = require('assert')
 ,	getTestSession= function () {
 		return {
             profile_id : '8b46bfa1-193b-11e1-bddb-0800200c9a66',
-            expire_time : 150000000
+            expire_time : new Date().getUTCMilliseconds()+5000
         };	
     };
 	
@@ -43,9 +43,12 @@ vows.describe('SessionDao').addBatch({
                 'and that session should have same profile ID' : function (session) { 
                     assert.equal(session.profile_id, '8b46bfa1-193b-11e1-bddb-0800200c9a66'); 
                 },
-                'and that session should have the same expire time' : function (session) { 
-                    assert.equal(session.expire_time, 150000000);
-                }
+                'and that session should have a valid expire time' : function (session) { 
+                    assert.ok(session.expire_time);
+                },
+								'and that session should destroy itself after the expire time has passed' : function (session) {
+										setTimeout( function() { assert.ok(!SessionDao.findById(session.session_id)); }, 5000);
+								}
             },
             teardown : function (session) {
                 var callback = this.callback;

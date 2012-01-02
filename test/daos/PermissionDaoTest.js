@@ -4,8 +4,6 @@ var assert = require('assert')
 , 	profileDao = require('../../models/daos/ProfileDao')
 , 	permissionDao = require('../../models/daos/PermissionDao')
 ,	projectDao = require('../../models/daos/ProjectDao')
-, 	_profile_id
-, 	_project_id
 , 	getTestProject = function () {
 		return { 
 			name : 'test_project',
@@ -22,6 +20,14 @@ var assert = require('assert')
 			email : 'test_user@test.com',
 			password : 'justTesting'
 		};
+	}
+
+,	getTestPermission = function (profile, project) {
+		return {
+			profile_id : profile.profile_id,
+			project_id : project.project_id,
+			feature_bit_mask : 10101010
+		}
 	};
 
 vows.describe('PermissionDao').addBatch({
@@ -50,30 +56,22 @@ vows.describe('PermissionDao').addBatch({
 			topic : function () {
                 var promise = new events.EventEmitter();
 				projectDao.create(getTestProject(), function (project) {
-					_project_id = project.project_id;
 					promise.emit('success', project);
 				});
 				return promise;
 			},
 			'after creating a sample profile' : {
-				topic : function () {
+				topic : function (project) {
 					var promise = new events.EventEmitter();
 					profileDao.create(getTestProfile(), function(profile) {
-						_profile_id = profile.profile_id;
 						promise.emit('success', profile);
 					});
 					return promise;
 				},
 				'after creating a sample permission' : { 
-					topic : function () {
+					topic : function (profile, project) {
 						var promise = new events.EventEmitter();
-						permissionDao.create(
-							{ 
-								project_id : _project_id, 
-								profile_id : _profile_id,
-								feature_bit_mask : 10101010
-							},
-							function(permission) {
+						permissionDao.create(getTestPermission(profile, project), function(permission) {
 							promise.emit('success', permission);
 						});
 						return promise;
@@ -95,12 +93,12 @@ vows.describe('PermissionDao').addBatch({
                    			assert.ok(permission); 
                 		},
 
-                		'and that permission should have the same profile ID' : function (permission) { 
-                    		assert.equal(permission.profile_id, _profile_id); 
+                		'and that permission should have a profile ID' : function (permission) { 
+                    		assert.ok(permission.profile_id);
                 		},
 						
-                		'and that permission should have the same project ID' : function (permission) { 
-                    		assert.equal(permission.project_id, _project_id);
+                		'and that permission should have a project ID' : function (permission) { 
+                    		assert.ok(permission.project_id);
 						},
 
 						'and that permission should have the same feature bit mask' : function (permission) {
