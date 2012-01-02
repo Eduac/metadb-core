@@ -1,5 +1,4 @@
-var uuid = require('node-uuid')
-, 	CrudDao = require('./CrudDao')
+var CrudDao = require('./CrudDao')
 , 	_queries = {
 		create : 'INSERT INTO permissions (profile_id, project_id, feature_bit_mask) VALUES ($1, $2, $3)',
 		findById : 'SELECT * FROM permissions WHERE profile_id = $1 AND project_id = $2',
