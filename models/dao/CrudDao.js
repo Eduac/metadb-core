@@ -1,18 +1,9 @@
-var pg = require('pg')
-,   Class = require('../Class')
-,   CrudDao = Class.extend({
-    init: function() {
-        this.connString = 'postgres://metadb_rw:metadb@localhost:5432/metadb';
-        this.pg = pg;
-    },
+var CrudDao = require('./BasicDao').extend({
     queries: {
         create: '',
         findById: '',
         update: '',
         deleteById: ''
-    },
-    connect: function(callbackFn) {
-        pg.connect(this.connString, callbackFn);
     },
     findById: function(id, callbackFn) {
         var _this = this;
@@ -52,9 +43,6 @@ var pg = require('pg')
     },
     queryToObj: function() {
         return {};
-    },
-    shutdown: function () {
-        this.pg.end();
     }
 });
 
