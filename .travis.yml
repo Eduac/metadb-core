@@ -4,3 +4,4 @@ node_js:
 before_script:
   - psql -c 'create database metadb;' -U postgres
   - psql -c "create user metadb_rw with password 'metadb';" -U postgres
+  - psql -c "create user metadb_ro with password 'metadb';" -U postgres
