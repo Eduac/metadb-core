@@ -1,9 +1,9 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-, 	profileDao = require('../../models/dao/ProfileDao')
-, 	permissionDao = require('../../models/dao/PermissionDao')
-,	projectDao = require('../../models/dao/ProjectDao')
+, 	profileDao = require('../../models/daos/ProfileDao')
+, 	permissionDao = require('../../models/daos/PermissionDao')
+,	projectDao = require('../../models/daos/ProjectDao')
 , 	_profile_id
 , 	_project_id
 , 	getTestProject = function () {

@@ -1,7 +1,7 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-,   sessionDao = require('../../models/dao/SessionDao')
+,   sessionDao = require('../../models/daos/SessionDao')
 ,	getTestSession= function () {
 		return {
             profile_id : '8b46bfa1-193b-11e1-bddb-0800200c9a66',

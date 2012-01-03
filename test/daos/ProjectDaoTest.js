@@ -1,7 +1,7 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-,   projectDao = require('../../models/dao/ProjectDao')
+,   projectDao = require('../../models/daos/ProjectDao')
 ,	getTestProject= function () {
 		return {
 			name : 'test_project',

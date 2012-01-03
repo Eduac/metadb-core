@@ -1,7 +1,7 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-,   authenticationDao = require('../../models/dao/AuthenticationDao');
+,   authenticationDao = require('../../models/daos/AuthenticationDao');
 	
 vows.describe('AuthenticationDao').addBatch({
     'after initialization' : {

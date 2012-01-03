@@ -1,7 +1,7 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-,   schemaDao = require('../../models/dao/SchemaDao')
+,   schemaDao = require('../../models/daos/SchemaDao')
 ,	getTestSchema = function () {
 		return {
 		    name : 'test_schema', 

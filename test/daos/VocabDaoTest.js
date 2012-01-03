@@ -1,7 +1,7 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-,   vocabDao = require('../../models/dao/VocabDao')
+,   vocabDao = require('../../models/daos/VocabDao')
 ,	getTestVocab = function () {
 		return {
 			name : 'test_vocab',

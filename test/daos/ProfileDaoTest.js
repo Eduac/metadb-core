@@ -1,7 +1,7 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-,   profileDao = require('../../models/dao/ProfileDao')
+,   profileDao = require('../../models/daos/ProfileDao')
 ,	getTestProfile = function () {
 		return {
 			username : 'test_user',

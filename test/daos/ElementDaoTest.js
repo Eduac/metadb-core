@@ -1,8 +1,8 @@
 var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
-,   elementDao = require('../../models/dao/ElementDao')
-,	schemaDao = require('../../models/dao/SchemaDao')
+,   elementDao = require('../../models/daos/ElementDao')
+,	schemaDao = require('../../models/daos/SchemaDao')
 ,   _schema_id = ''
 ,	getTestSchema = function () {
 		return {

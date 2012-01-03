@@ -5,10 +5,10 @@ var njrpc = require('njrpc')
 ,   START = false
 ,   args = process.argv
 ,	daoList = { 
-    	AuthenticationDao : require('./models/dao/AuthenticationDao'),
-	    VocabDao : require('./models/dao/VocabDao'),
-	    ProfileDao: require('./models/dao/ProfileDao'),
-	    SessionDao: require('./models/dao/SessionDao')   
+    	AuthenticationDao : require('./models/daos/AuthenticationDao'),
+	    VocabDao : require('./models/daos/VocabDao'),
+	    ProfileDao: require('./models/daos/ProfileDao'),
+	    SessionDao: require('./models/daos/SessionDao')   
 	}
 
 ,	handlers = [ 
