@@ -4,7 +4,7 @@ USER=metadb_rw
 DB=metadb
 CLEAN=0
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+export PGPASSWORD=metadb
 while [ $# -gt 0 ]
 do
     case "$1" in

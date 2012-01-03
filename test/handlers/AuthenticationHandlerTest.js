@@ -13,8 +13,8 @@ vows.describe('AuthenticationHandler').addBatch({
         },
         'when authenticate user long' : {
             topic : function () {
-                var promise = new(events.EventEmitter),
-                    options = Helper.getOptions();
+                var promise = new events.EventEmitter()
+                ,   options = Helper.getOptions();
                 options.method = 'GET';
                 options.path = "/" + Helper.sampleGetRequest("AuthenticationHandler.authenticate", ['long', 'long'], 2);
                 http.request(options, function (res) { promise.emit('success', res); }).end();
@@ -22,15 +22,22 @@ vows.describe('AuthenticationHandler').addBatch({
             },
             'should produce a response' : {
                 topic : Helper.parseResponse,
-                'that has a valid uuid' : function (jsonRes) {
+                'that has a valid result' : function (jsonRes) {
                     assert.ok(jsonRes.result);
+                },
+                'and a valid id' : function (jsonRes) {
+                    assert.ok(jsonRes.result.session_id);
+                    assert.ok(jsonRes.result.id);
+                },
+                'and a valid expire time' : function (jsonRes) {
+                    assert.ok(jsonRes.result.expire_time > 1000);
                 }
             }
         },
-        'when authenticate user random' : {
+        'when authenticate a random user' : {
             topic : function () {
-                var promise = new(events.EventEmitter),
-                    options = Helper.getOptions();
+                var promise = new events.EventEmitter()
+                ,   options = Helper.getOptions();
                 options.method = 'GET';
                 options.path = "/" + Helper.sampleGetRequest("AuthenticationHandler.authenticate", ['random', 'whatever'], 2);
                 http.request(options, function (res) { promise.emit('success', res); }).end();
@@ -38,7 +45,7 @@ vows.describe('AuthenticationHandler').addBatch({
             },
             'should produce a response' : {
                 topic : Helper.parseResponse,
-                'that has a null uuid' : function (jsonRes) {
+                'that has a null result' : function (jsonRes) {
                     assert.ok(!jsonRes.result);
                 }
             }
