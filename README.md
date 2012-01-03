@@ -1,4 +1,5 @@
 # MetaDB-Core
+[![Build Status](http://travis-ci.org/LafColDevs/metadb-core.png)](http://travis-ci.org/LafColDevs/metadb-core)
 
 This is a Node.js application which comprises the MetaDB web service. 
 Note: This is not a stand-alone application. A JSON-RPC speaking front end is required to interface with MetaDB Core.
