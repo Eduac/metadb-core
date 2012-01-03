@@ -1,7 +1,6 @@
 //Authenticate(): check against DB, return new sessionID(uuid) 
 //return null if error
-var uuid = require('node-uuid')
-,   BasicDao = require('./BasicDao')
+var BasicDao = require('./BasicDao')
 ,   sha1 = require('sha1')
 ,   _queries = {
         authenticate : 'SELECT profile_id FROM profiles WHERE username = $1 AND password = $2'

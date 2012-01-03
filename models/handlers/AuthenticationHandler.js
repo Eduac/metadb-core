@@ -9,9 +9,8 @@ var SESSION_TIMEOUT = 60000 * 30
 		//TODO: Try-Catch 
 		authenticate : function (username, password, outFn) {
 			authDao.authenticate(username, password, function(authenticated) {
-				if (!authenticated) return outFn(null);
+                if (!authenticated) return outFn(null);
                 profileDao.findByUsername(username, function (profile) {
-                    
                     sessionDao.create({
                         profile_id : profile.profile_id,
                         expire_time : new Date().getUTCMilliseconds() + SESSION_TIMEOUT

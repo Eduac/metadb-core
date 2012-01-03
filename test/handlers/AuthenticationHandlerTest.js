@@ -4,7 +4,6 @@ var server = require('../../server')
 ,   vows = require('vows')
 ,   assert = require('assert')
 ,   Helper = require('./helper')
-,   authenticationHandler = require('../../models/handlers/AuthenticationHandler')
 ,   PORT = 4000;
 
 vows.describe('AuthenticationHandler').addBatch({
@@ -21,8 +20,27 @@ vows.describe('AuthenticationHandler').addBatch({
                 http.request(options, function (res) { promise.emit('success', res); }).end();
                 return promise;
             },
-            'should pass' : function (uuid) {
-                assert.ok(uuid);
+            'should produce a response' : {
+                topic : Helper.parseResponse,
+                'that has a valid uuid' : function (jsonRes) {
+                    assert.ok(jsonRes.result);
+                }
+            }
+        },
+        'when authenticate user random' : {
+            topic : function () {
+                var promise = new(events.EventEmitter),
+                    options = Helper.getOptions();
+                options.method = 'GET';
+                options.path = "/" + Helper.sampleGetRequest("AuthenticationHandler.authenticate", ['random', 'whatever'], 2);
+                http.request(options, function (res) { promise.emit('success', res); }).end();
+                return promise;
+            },
+            'should produce a response' : {
+                topic : Helper.parseResponse,
+                'that has a null uuid' : function (jsonRes) {
+                    assert.ok(!jsonRes.result);
+                }
             }
         }
     }    
