@@ -5,7 +5,7 @@ var AuthenticationInterceptor = (function () {
 	return {
 		process : function (jReq) {
 			try {
-				_handler = jReq.method.split('.')[0];
+				var _handler = jReq.method.split('.')[0];
 				if (_handler in _ignored) return;
 				if (!jReq.headers || !jReq.headers.user || !jReq.headers.token) 
 					throw new Error('Header/header user/header token is not present');

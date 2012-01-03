@@ -32,9 +32,9 @@ var SessionDao = CrudDao.extend(
         var _this = this
         ,   utcTime = new Date().getUTCMilliseconds();
         /* Store the session ID into the map */
-		_timeoutMap[obj.session_id] = setTimeout( function() {
+		_timeoutMap[obj.session_id] = setTimeout(function() {
                 _this.deleteById(obj.session_id);
-            }, obj.expire_time-utcTime);
+            }, obj.expire_time - utcTime);
 
         obj.session_id = obj.id = uuid();
 		this._super(obj, callbackFn);		

@@ -12,7 +12,8 @@
   },
   "main": "server.js",
   "scripts": {
-    "test": "vows test/**/*Test.js --spec"
+    "test": "vows test/**/*Test.js --spec",
+    "start": "node server.js -p"
   },
   "engines": {
     "node": ">= 0.4.12"
