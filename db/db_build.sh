@@ -3,6 +3,7 @@
 USER=metadb_rw
 DB=metadb
 CLEAN=0
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 while [ $# -gt 0 ]
 do
@@ -36,7 +37,7 @@ else
 fi
 
 UPDATING=''
-FILES=`ls -1 mdb_core*.sql`
+FILES=`ls -1 $DIR/mdb_core*.sql`
 
 for FILE in $FILES
 do

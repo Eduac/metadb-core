@@ -12,7 +12,7 @@
   },
   "main": "server.js",
   "scripts": {
-    "test": "vows test/**/*Test.js --spec",
+    "test": "bash db/db_build.sh -c; vows test/**/*Test.js --spec",
     "start": "node server.js -p"
   },
   "engines": {
