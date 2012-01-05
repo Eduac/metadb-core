@@ -3,20 +3,9 @@ var assert = require('assert')
 ,   events = require('events')
 ,   elementDao = require('../../models/daos/ElementDao')
 ,	schemaDao = require('../../models/daos/SchemaDao')
-,   _schema_id = ''
-,	getTestSchema = function () {
-		return {
-		    name : 'test_schema', 
-            description: 'This is the description of a test schema.'
-        };
-    }
-,   getTestElement= function(schema) {
-		return {
-            schema_id : schema.schema_id,
-            element: 'test_element'
-		};	
-	};
-	
+,	testHelper = require('./TestHelper')
+;
+
 vows.describe('ElementDao').addBatch({
     'after initialization' : {
         'should have findById query' : function () {
@@ -33,7 +22,7 @@ vows.describe('ElementDao').addBatch({
         'after creating a sample schema' : {
             topic : function () {
                 var promise = new events.EventEmitter();
-                schemaDao.create(getTestSchema(), function (schema) {
+                schemaDao.create(testHelper.getTestSchema(), function (schema) {
                     _schema_id = schema.schema_id;
                     promise.emit('success', schema);
                 });
@@ -42,7 +31,7 @@ vows.describe('ElementDao').addBatch({
             'after creating a sample element in that schema' : {
                 topic : function (schema) {
                     var promise = new events.EventEmitter();
-                    elementDao.create(getTestElement(schema), function (element) {
+                    elementDao.create(testHelper.getTestElement(schema), function (element) {
                         promise.emit('success', element);
                     });
                     return promise;

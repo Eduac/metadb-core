@@ -2,16 +2,9 @@ var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
 ,   profileDao = require('../../models/daos/ProfileDao')
-,	getTestProfile = function () {
-		return {
-			username : 'test_user',
-			first_name : 'Test',
-			last_name : 'User',
-			email : 'test_user@test.com',
-			password : 'justTesting'
-		};	
-    };
-	
+,	testHelper = require('./TestHelper')
+;
+
 vows.describe('ProfileDao').addBatch({
     'after initialization' : {
         'should have findById query' : function () {
@@ -36,7 +29,7 @@ vows.describe('ProfileDao').addBatch({
         'after creating a sample profile' : {
             topic : function () {
                 var promise = new events.EventEmitter();
-                profileDao.create(getTestProfile(), function (profile) {
+                profileDao.create(testHelper.getTestProfile(), function (profile) {
                     promise.emit('success', profile);
                 });
                 return promise;

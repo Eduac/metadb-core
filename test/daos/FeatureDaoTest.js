@@ -2,14 +2,9 @@ var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
 ,   featureDao = require('../../models/daos/FeatureDao')
-,	getTestFeature= function () {
-		return {
-			name : 'test_feature',
-			description : 'test_description',	
-			feature_bit : 10101010
-		};	
-    };
-	
+,	testHelper = require('./TestHelper')
+;
+
 vows.describe('FeatureDao').addBatch({
     'after initialization' : {
         'should have findById query' : function () {
@@ -21,7 +16,7 @@ vows.describe('FeatureDao').addBatch({
         'after creating a sample feature' : {
             topic : function () {
                 var promise = new events.EventEmitter();
-                featureDao.create(getTestFeature(), function (feature) {
+                featureDao.create(testHelper.getTestFeature(), function (feature) {
                     promise.emit('success', feature);
                 });
                 return promise;

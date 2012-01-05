@@ -7,49 +7,8 @@ var assert = require('assert')
 ,	elementDao = require('../../models/daos/ElementDao')
 ,	vocabDao = require('../../models/daos/VocabDao')
 ,	projectFeatureDao = require('../../models/daos/ProjectFeatureDao')
-, 	getTestProject= function () {
-		return { 
-			name : 'test_project',
-			description : 'test',
-			branding_text : 'test_brand'
-		};
-	}
-
-, 	getTestFeature = function () {
-		return {
-			name : 'test_feature',
-			description : 'test_description',
-			feature_bit : 10101010
-		};
-	}
-,	getTestSchema = function () {
-		return {
-		    name : 'test_schema', 
-            description: 'This is the description of a test schema.'
-        };	
-    }
-,   getTestElement= function(schema) {
-		return {
-            schema_id : schema.schema_id,
-            element: 'test_element'
-		};
-	}
-,	getTestVocab = function () {
-		return {
-			name : 'test_vocab_2',
-			words: 'one; two; three; four'
-		};	
-	}
-,	getTestProjectFeature = function (project, feature, element, vocab) {
-		return {
-			project_id: project.project_id,
-			feature_id : feature.feature_id,
-			element_id : element.element_id,
-			value : 'test_value',
-			setting_bit_mask : 10101010,
-			vocab_id : vocab.vocab_id,
-		}
-	};
+, testHelper = require('./TestHelper')
+;
 
 vows.describe('ProjectFeatureDao').addBatch({
     'after initialization' : {
@@ -72,54 +31,54 @@ vows.describe('ProjectFeatureDao').addBatch({
 		'should have the findAllByProjectId method' : function () {
 			assert.ok(projectFeatureDao.findAllByProjectId);
 		},
-		'after creating a sample schema' : {
+		'sample schema' : {
 			topic : function () {
 				var promise = new events.EventEmitter();
-				schemaDao.create(getTestSchema(), function(schema) {
+				schemaDao.create(testHelper.getTestSchema(), function(schema) {
 					promise.emit('success', schema);
 				});
 				return promise;
 			},
-        	'after creating a sample project' : {
+        	'-> sample project' : {
 				topic : function () {
 					var promise = new events.EventEmitter();
-					projectDao.create(getTestProject(), function (project) {
+					projectDao.create(testHelper.getTestProject(), function (project) {
 					promise.emit('success', project);
 					});
 					return promise;
 				},
 				
-				'after creating a sample feature' : {
+				'-> sample feature' : {
 					topic : function () {
 						var promise = new events.EventEmitter();
-						featureDao.create(getTestFeature(), function (feature) {
+						featureDao.create(testHelper.getTestFeature(), function (feature) {
 							promise.emit('success', feature);
 						});
 						return promise;
 					},
 
-					'after creating a sample element' : { 
+					'-> sample element' : { 
 						topic : function (feature, project, schema) {
 							var promise = new events.EventEmitter();
-							elementDao.create(getTestElement(schema), function(element) {
+							elementDao.create(testHelper.getTestElement(schema), function(element) {
 								promise.emit('success', element);
 							});
 							return promise;
 						},
 						
-						'after creating a sample vocab' : {
+						'-> sample vocab' : {
 							topic: function (element) {
 								var promise = new events.EventEmitter();
-								vocabDao.create(getTestVocab(), function (vocab) {
+								vocabDao.create(testHelper.getTestVocab('voc_projectfeaturetest'), function (vocab) {
 									promise.emit('success', vocab);
 								});
 								return promise;
 							},
 
-							'after creating a sample project feature' : {
+							'-> sample project feature' : {
 								topic : function (vocab, element, feature, project) {
 									var promise = new events.EventEmitter();
-									projectFeatureDao.create(getTestProjectFeature(project, feature, element, vocab), function (projectFeature) {
+									projectFeatureDao.create(testHelper.getTestProjectFeature(project, feature, element, vocab), function (projectFeature) {
 										promise.emit('success', projectFeature);
 									});
 									return promise;

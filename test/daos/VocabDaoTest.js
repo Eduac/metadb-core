@@ -2,13 +2,9 @@ var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
 ,   vocabDao = require('../../models/daos/VocabDao')
-,	getTestVocab = function () {
-		return {
-			name : 'test_vocab',
-			words: 'one; two; three; four'
-		};	
-	};
-	
+,		testHelper = require('./TestHelper')
+;
+
 vows.describe('VocabDao').addBatch({
     'after initialization' : {
         'should have findById query' : function () {
@@ -20,7 +16,7 @@ vows.describe('VocabDao').addBatch({
         'after creating a sample vocabulary' : {
             topic : function () {
                 var promise = new events.EventEmitter();
-                vocabDao.create(getTestVocab(), function (vocab) {
+                vocabDao.create(testHelper.getTestVocab('voc_vocabtest'), function (vocab) {
                     promise.emit('success', vocab);
                 });
                 return promise;
@@ -40,7 +36,7 @@ vows.describe('VocabDao').addBatch({
                     assert.ok(vocab); 
                 },
                 'and that vocab should have same name' : function (vocab) { 
-                    assert.equal(vocab.name, 'test_vocab'); 
+                    assert.equal(vocab.name, 'voc_vocabtest'); 
                 },
                 'and that vocab should have the same contents' : function (vocab) { 
                     assert.equal(vocab.words, 'one; two; three; four'); 

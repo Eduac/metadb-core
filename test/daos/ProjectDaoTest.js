@@ -2,14 +2,9 @@ var assert = require('assert')
 ,   vows = require('vows')
 ,   events = require('events')
 ,   projectDao = require('../../models/daos/ProjectDao')
-,	getTestProject= function () {
-		return {
-			name : 'test_project',
-			description : 'test', 
-			branding_text : 'test_brand'
-		};	
-	};
-	
+,	testHelper = require('./TestHelper')
+;
+
 vows.describe('ProjectDao').addBatch({
     'after initialization' : {
         'should have findById query' : function () {
@@ -21,7 +16,7 @@ vows.describe('ProjectDao').addBatch({
         'after creating a sample project' : {
             topic : function () {
                 var promise = new events.EventEmitter();
-                projectDao.create(getTestProject(), function (project) {
+                projectDao.create(testHelper.getTestProject(), function (project) {
                     promise.emit('success', project);
                 });
                 return promise;

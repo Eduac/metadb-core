@@ -4,31 +4,8 @@ var assert = require('assert')
 , 	profileDao = require('../../models/daos/ProfileDao')
 , 	permissionDao = require('../../models/daos/PermissionDao')
 ,	projectDao = require('../../models/daos/ProjectDao')
-, 	getTestProject = function () {
-		return { 
-			name : 'test_project',
-			description : 'test',
-			branding_text : 'test_brand'
-		};
-	}
-
-, 	getTestProfile = function () {
-		return {
-			username : 'test_user',
-			first_name : 'Test',
-			last_name : 'User',
-			email : 'test_user@test.com',
-			password : 'justTesting'
-		};
-	}
-
-,	getTestPermission = function (profile, project) {
-		return {
-			profile_id : profile.profile_id,
-			project_id : project.project_id,
-			feature_bit_mask : 10101010
-		}
-	};
+,	testHelper = require('./TestHelper')
+;
 
 vows.describe('PermissionDao').addBatch({
     'after initialization' : {
@@ -52,26 +29,26 @@ vows.describe('PermissionDao').addBatch({
 			assert.ok(permissionDao.findAllByProfileId);
 		},
 
-        'after creating a sample project' : {
+        '-> sample project' : {
 			topic : function () {
                 var promise = new events.EventEmitter();
-				projectDao.create(getTestProject(), function (project) {
+				projectDao.create(testHelper.getTestProject(), function (project) {
 					promise.emit('success', project);
 				});
 				return promise;
 			},
-			'after creating a sample profile' : {
+			'-> sample profile' : {
 				topic : function (project) {
 					var promise = new events.EventEmitter();
-					profileDao.create(getTestProfile(), function(profile) {
+					profileDao.create(testHelper.getTestProfile(), function(profile) {
 						promise.emit('success', profile);
 					});
 					return promise;
 				},
-				'after creating a sample permission' : { 
+				'-> sample permission' : { 
 					topic : function (profile, project) {
 						var promise = new events.EventEmitter();
-						permissionDao.create(getTestPermission(profile, project), function(permission) {
+						permissionDao.create(testHelper.getTestPermission(profile, project), function(permission) {
 							promise.emit('success', permission);
 						});
 						return promise;
