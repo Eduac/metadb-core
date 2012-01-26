@@ -40,19 +40,16 @@ settings (setting_id, name, bit)
 projects (project_id, name, description, branding_text)
 properties (name, value)
 
-ONE DEPENDENCY
 elements (element_id, schema_id, element)
 project_metadata (project_id, derivative, width, height, brand, background_color, foreground_color)
+project_features (project_id, feature_id, element_id, value, setting_bit_mask, vocab_id)
 
-TWO DEPENDENCIES
-items (item_id, project_id, item_index, element_id, value)
+items (item_id, project_id, item_index, element_id, value) depends on project_features
 permissions (profile_id, project_id, feature_bit_mask)
 
 THREE DEPENDENCIES
 item_data (item_id, data) <indirectly depends on project/element>
 
-FOUR DEPENDENCIES
-project_features (project_id, feature_id, element_id, value, setting_bit_mask, vocab_id)
 '''
 
 import csv
@@ -69,17 +66,24 @@ def gen_delete_query (table, idField, idVal):
 Generates a insert query for table. Assume var and vals match up together (ignore the ID column)
 '''
 def gen_insert_query (table, ids, columns, vals_format, vals):
-  result={}
-  result['ids'] = ids
-  query = "INSERT INTO "+table+"("
-  query+= ', '.join(map(str, columns))
-  query+= ") "
-  query+= "VALUES (" 
-  query+= ', '.join(map(str, vals_format)) % tuple(vals) 
-  query+= ");" 
-
-  result['query'] = query
-  return result
+	result={}
+	result['ids'] = ids
+	query = "INSERT INTO "+table+"("
+	query+= ', '.join(map(str, columns))
+	query+= ") "
+	query+= "VALUES (" 
+	valList = []
+	for val in vals:
+		if val=='null' or val=='NULL':
+			valList.append('null')
+		elif isinstance(val, int):
+			valList.append(str(val))
+		else:
+			valList.append('\''+val+'\'')
+	query+= ", ".join(valList)
+	query+= ");" 
+	result['query'] = query
+	return result
 ''' By table
 '''
 def gen_create_profile (user):
@@ -234,7 +238,7 @@ def lorem_ipsum (amount):
 profiles = []
 userNames=  [ 'lacus', 'kira', 'athrun', 'cagalli', 'mu']
 firstNames = [ 'Lacus', 'Kira', 'Athrun', 'Cagalli', 'Mu' ]
-email = 'dummy@dummy.com'
+emails = [ 'lc@gundam.com', 'ky@gundam.com', 'az@gundam.com', 'cy@gundam.com', 'ml@gundam.com' ]
 lastNames = [ 'Clyne', 'Yamato', 'Zala', 'Yula Athha', 'La Flaga']
 password = '123123'
 
@@ -244,11 +248,11 @@ for i in range(numProfiles):
 	profile = {}
 	profile['profile_id'] = uuid.uuid4().hex
 	profile['username'] = userNames[i]
-	profile['email'] = email
+	profile['email'] = emails[i]
 	profile['first_name'] = firstNames[i]
 	profile['last_name'] = lastNames[i]
 	profile['last_login'] = 0
-	profile['last_project_id'] = ''
+	profile['last_project_id'] = 'null'
 	profile['role'] = 'worker'
 	sha = hashlib.sha1()
 	sha.update('789789')
@@ -294,7 +298,7 @@ features.append(
 			'feature_id' : uuid.uuid4().hex,
 			'name' : 'descriptive',
 			'description' : 'Descriptive metadta',
-			'feature_bit' : '0'
+			'feature_bit' : 100
 		})
 
 features.append(
@@ -302,7 +306,7 @@ features.append(
 			'feature_id' : uuid.uuid4().hex,
 			'name' : 'administrative',
 			'description' : 'Administrative metadta',
-			'feature_bit' : '00'
+			'feature_bit' : 101
 		})
 
 elements = []
@@ -314,18 +318,35 @@ for schema in metadata_schemas:
 					'schema_id' : schema['schema_id'],
 					'element' : schema['name']+'_element_'+str(i)
 				})
+###
+# Bad code here. element_id is fine but value is always hardcoded
+project_features = []
+for project in projects:
+	eleIndex = 0
+	for feature in features:
+		numElements = len(elements)
+		for element in elements:
+			project_features.append(
+					{
+						'project_id' : project['project_id'],
+						'feature_id' : feature['feature_id'],
+						'element_id' : element['element_id'],
+						'value' : 'value_'+str(eleIndex),
+						'setting_bit_mask' : 0,
+						'vocab_id' : 'null'
+					})
+			eleIndex+=1
 
 items = []
-for project in projects:
-		for i in range(100):
-			for element in elements:
+for project_feature in project_features:
+		for i in range(10):
 				items.append(
 					{
 						'item_id' : uuid.uuid4().hex,
 						'project_id' : project['project_id'],
 						'item_index' : i,
-						'element_id' : element['element_id'],
-						'value' : 'value'
+						'element_id' : project_feature['element_id'],
+						'value' : project_feature['value'] 
 					})
 
 item_data = []
@@ -351,23 +372,12 @@ for project in projects:
 	project_metadata.append(
 			{
 				'project_id' : project['project_id'],
-				'derivative' : 'thumb',
-				'width' : 300,
-				'height' : 300,
-				'brand' : 'Test brand',
-				'background_color' : '00000000',
-				'foreground_color' : 'ffffffff'
-			})
-	
-	project_metadata.append(
-			{
-				'project_id' : project['project_id'],
 				'derivative' : 'zoom',
 				'width' : 2000,
 				'height' : 2000,
-				'brand' : 'Test brand',
-				'background_color' : '00000000',
-				'foreground_color' : 'ffffffff'
+				'brand' : 'none',
+				'background_color' : '000000',
+				'foreground_color' : 'ffffff'
 			})
 	
 	project_metadata.append(
@@ -376,26 +386,34 @@ for project in projects:
 				'derivative' : 'full',
 				'width' : 0,
 				'height' : 0,
-				'brand' : 'Test brand',
-				'background_color' : '00000000',
-				'foreground_color' : 'ffffffff'
+				'brand' : 'none',
+				'background_color' : '000000',
+				'foreground_color' : 'ffffff'
 			})
+	
+	project_metadata.append(
+			{
+				'project_id' : project['project_id'],
+				'derivative' : 'custom',
+				'width' : 800,
+				'height' : 800,
+				'brand' : 'none',
+				'background_color' : '000000',
+				'foreground_color' : 'ffffff'
+			})
+	
+	project_metadata.append(
+			{
+				'project_id' : project['project_id'],
+				'derivative' : 'thumbnail',
+				'width' : 300,
+				'height' : 300,
+				'brand' : 'none',
+				'background_color' : '000000',
+				'foreground_color' : 'ffffff'
+			})
+	
 
-###
-# Bad code here. element_id is fine but value is always hardcoded
-project_features = []
-for project in projects:
-	for feature in features:
-		for element in elements:
-			project_features.append(
-					{
-						'project_id' : project['project_id'],
-						'feature_id' : feature['feature_id'],
-						'element_id' : element['element_id'],
-						'value' : 'value',
-						'setting_bit_mask' : 0,
-						'vocab_id' : ''
-					})
 
 createCommands=[]
 
@@ -420,6 +438,9 @@ for element in elements:
 for metadata in project_metadata:
 	createCommands.append(gen_create_project_metadata(metadata))
 
+for pj_feature in project_features:
+	createCommands.append(gen_create_project_feature(pj_feature))
+
 for item in items:
 	createCommands.append(gen_create_item(item))
 
@@ -429,8 +450,6 @@ for permission in permissions:
 for data in item_data:
 	createCommands.append(gen_create_item_data(data))
 
-for pj_feature in project_features:
-	createCommands.append(gen_create_project_feature(pj_feature))
 
 removeCommands = []
 for profile in profiles:
