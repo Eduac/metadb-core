@@ -10,7 +10,8 @@ Generates a .sql file with complete test data for MetaDB.
 TODO: Add the masterfile/deriv dummy generation. This file currently only generates data for the database to import.
 
 Input: None
-Output: 1x .SQL file to tear down and setup the test harness
+Output: 1x .SQL file to setup the test harness
+				1x .SQL file to destroy the test harness
 
 ====
 Steps for test data generation
@@ -467,13 +468,12 @@ for feature in features:
 for project in projects: 
 	removeCommands.append(gen_delete_query('projects', 'project_id', project['project_id']))
 
-outputFile = open("test_data.sql", "w")
+removeScript = open("remove_test_data.sql", "w")
 for command in removeCommands:
-	outputFile.write(command+'\n')
+	removeScript.write(command+'\n')
+removeScript.close()
 
-for i in range(3):
-	outputFile.write('\n')
-
+setupScript = open("load_test_data.sql", "w")
 for command in createCommands:
-	outputFile.write(command['query']+'\n')
-outputFile.close()
+	setupScript.write(command['query']+'\n')
+setupScript.close()
