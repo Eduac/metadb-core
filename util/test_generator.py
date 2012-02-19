@@ -41,6 +41,7 @@ settings (setting_id, name, bit)
 projects (project_id, name, description, branding_text)
 properties (name, value)
 
+HAS DEPENDENCIES
 elements (element_id, schema_id, element)
 project_metadata (project_id, derivative, width, height, brand, background_color, foreground_color)
 project_features (project_id, feature_id, element_id, value, setting_bit_mask, vocab_id)
@@ -48,7 +49,6 @@ project_features (project_id, feature_id, element_id, value, setting_bit_mask, v
 items (item_id, project_id, item_index, element_id, value) depends on project_features
 permissions (profile_id, project_id, feature_bit_mask)
 
-THREE DEPENDENCIES
 item_data (item_id, data) <indirectly depends on project/element>
 
 '''
@@ -60,11 +60,14 @@ import hashlib
 import re
 import string
 
+'''
+Generates a DELETE FROM query for a table. Only works for single ID
+'''
 def gen_delete_query (table, idField, idVal):
 	return "DELETE FROM "+table+" WHERE "+idField+'= \''+idVal+'\';'
 
 '''
-Generates a insert query for table. Assume var and vals match up together (ignore the ID column)
+Generates a INSERT query for a table. Assume columns and vals match up together 
 '''
 def gen_insert_query (table, ids, columns, vals_format, vals):
 	result={}
@@ -86,7 +89,8 @@ def gen_insert_query (table, ids, columns, vals_format, vals):
 	result['query'] = query
 	return result
 
-''' By table
+'''
+INSERT queries by table
 '''
 def gen_create_profile (user):
   table = 'profiles'
@@ -223,6 +227,9 @@ def gen_create_project_feature (project_feature):
   result = gen_insert_query (table, ids, columns, vals_format, vals)
   return result
 
+'''
+Script that returns some Lorem Ipsum
+'''
 def lorem_ipsum (amount):
 	text = """Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer
 	eu lacus accumsan arcu fermentum euismod. Donec pulvinar porttitor
@@ -237,6 +244,10 @@ def lorem_ipsum (amount):
 	words= text.split()
 	return " ".join(words[0:min(len(words), amount)])
 
+
+'''
+Build the data structures for putting into SQL queries
+'''
 profiles = []
 userNames=  [ 'lacus', 'kira', 'athrun', 'cagalli', 'mu']
 firstNames = [ 'Lacus', 'Kira', 'Athrun', 'Cagalli', 'Mu' ]
@@ -244,6 +255,9 @@ emails = [ 'lc@gundam.com', 'ky@gundam.com', 'az@gundam.com', 'cy@gundam.com', '
 lastNames = [ 'Clyne', 'Yamato', 'Zala', 'Yula Athha', 'La Flaga']
 password = '123123'
 
+###
+# Generate profiles
+###
 numProfiles = len(userNames)
 
 for i in range(numProfiles):
@@ -261,7 +275,6 @@ for i in range(numProfiles):
 	profile['password'] = sha.hexdigest()
 	profiles.append(profile)
 
-
 ### 
 # Generate Vocabs
 ###
@@ -270,7 +283,7 @@ vocabs = []
 for i in range(numVocabs):
 	vocabs.append( { 'vocab_id' : uuid.uuid4().hex, 
 									 'name' :'vocab_'+str(i),
-									 'words' : ", ".join(list("".join(list([random.choice(string.letters) for i in xrange(8)])) for j in xrange(10))) })
+									 'words' : ", ".join(list("".join(list([random.choice(string.letters) for i in xrange(8)])) for j in xrange(10))) }) # Some crazy thing to generate random words
 
 ###
 # Generate projects
@@ -286,6 +299,9 @@ for i in range(numProjects):
 			'branding_text' : 'Test brand for project_'+str(i)
 		})
 
+###
+# Generate schemas
+###
 metadata_schemas = []
 metadata_schemas.append(
 		{ 
@@ -294,6 +310,9 @@ metadata_schemas.append(
 			'description' : 'Test schema.'
 		})
 
+### 
+# Generate features
+###
 features = []
 features.append(
 		{ 
@@ -311,6 +330,9 @@ features.append(
 			'feature_bit' : 101
 		})
 
+###
+# Generate elements
+###
 elements = []
 for schema in metadata_schemas:
 	for i in range(10):
@@ -320,7 +342,9 @@ for schema in metadata_schemas:
 					'schema_id' : schema['schema_id'],
 					'element' : schema['name']+'_element_'+str(i)
 				})
+
 ###
+# Generate the project features
 # Bad code here. element_id is fine but value is always hardcoded
 project_features = []
 for project in projects:
@@ -339,6 +363,9 @@ for project in projects:
 					})
 			eleIndex+=1
 
+###
+# Generate the items
+###
 items = []
 for project_feature in project_features:
 		for i in range(10):
@@ -351,6 +378,9 @@ for project_feature in project_features:
 						'value' : project_feature['value'] 
 					})
 
+###
+# Generate the item data
+###
 item_data = []
 for item in items:
 	item_data.append(
@@ -359,6 +389,10 @@ for item in items:
 				'data' : lorem_ipsum(random.randint(1, 20))
 			})
 
+###
+# Generate the permissions
+# TODO: Fix the bit mask to something that actually works.
+###
 permissions = []
 for profile in profiles:
 	for project in projects:
@@ -366,9 +400,13 @@ for profile in profiles:
 				{
 					'profile_id' : profile['profile_id'],
 					'project_id' : project['project_id'],
-					'feature_bit_mask' : '00'
+					'feature_bit_mask' : 100
 				})
 
+###
+# Generate the project metadata. 
+# Create custom, thumbnail, zoom, and full derivatives settings.
+###
 project_metadata = []
 for project in projects: 
 	project_metadata.append(
@@ -415,8 +453,7 @@ for project in projects:
 				'foreground_color' : 'ffffff'
 			})
 	
-
-
+# List to hold all the "INSERT" queries.
 createCommands=[]
 
 for profile in profiles:
@@ -452,7 +489,7 @@ for permission in permissions:
 for data in item_data:
 	createCommands.append(gen_create_item_data(data))
 
-
+# List to hold all the "DELETE FROM" queries.
 removeCommands = []
 for profile in profiles:
 	removeCommands.append(gen_delete_query('profiles', 'profile_id', profile['profile_id']))
@@ -469,11 +506,17 @@ for feature in features:
 for project in projects: 
 	removeCommands.append(gen_delete_query('projects', 'project_id', project['project_id']))
 
+### 
+# Write the DELETE FROM queries to the file 'remove_test_data.sql'.
+###
 removeScript = open("remove_test_data.sql", "w")
 for command in removeCommands:
 	removeScript.write(command+'\n')
 removeScript.close()
 
+###
+# Write the INSERT queries to the file 'load_test_data.sql'.
+###
 setupScript = open("load_test_data.sql", "w")
 for command in createCommands:
 	setupScript.write(command['query']+'\n')
