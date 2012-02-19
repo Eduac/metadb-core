@@ -85,6 +85,7 @@ def gen_insert_query (table, ids, columns, vals_format, vals):
 	query+= ");" 
 	result['query'] = query
 	return result
+
 ''' By table
 '''
 def gen_create_profile (user):
@@ -234,7 +235,7 @@ def lorem_ipsum (amount):
 	adipiscing. Suspendisse eu lectus. In nunc. Duis vulputate tristique
 	enim. Donec quis lectus a justo imperdiet tempus."""
 	words= text.split()
-	return " ".join(words[0:max(len(words), amount)])
+	return " ".join(words[0:min(len(words), amount)])
 
 profiles = []
 userNames=  [ 'lacus', 'kira', 'athrun', 'cagalli', 'mu']
