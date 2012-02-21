@@ -75,17 +75,15 @@ Generates a dummy image of size widthxlength at path.
 '''
 
 def generate_image(path, width, length):
-  if width == 0 or length == 0:
-    width, length = 3000, 3000
+    if width == 0 or length == 0:
+        width = 3000
+        length = 3000
+
     box = (0, 0, width, length)
     im = Image.new('RGBA', (width, length), (0, 0, 0, 0))
     draw = ImageDraw.Draw(im)
     draw.rectangle(box, fill=tuple(random.randint(0, 255) for i in xrange(4)))
     im.save(path)
-
-def generate_image(path, width, length):
-  im = Image.new('RGB', (width, length), tuple(random.randint(0,255) for i in xrange(4)))
-  im.save(path)
 
 '''
 Generates a DELETE FROM query for a table. Only works for single ID
