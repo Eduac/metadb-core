@@ -59,6 +59,14 @@ import uuid
 import hashlib 
 import re
 import string
+from PIL import Image, ImageDraw
+
+'''
+Generates a dummy image of size widthxlength at path.
+'''
+def generate_image(path, width, length):
+  im = Image.new('RGB', (width, length), tuple(random.randint(0,255) for i in xrange(4)))
+  im.save(path)
 
 '''
 Generates a DELETE FROM query for a table. Only works for single ID
@@ -521,3 +529,27 @@ setupScript = open("load_test_data.sql", "w")
 for command in createCommands:
 	setupScript.write(command['query']+'\n')
 setupScript.close()
+
+generateImages = str(raw_input("Generate test images? (y/n)"))
+while generateImages != "y" and generateImages != "n":
+  generateImages = raw_input("Generate test images? Please type y or n.")
+
+if generateImages=="y":
+  imgDir = "/opt/metadb/"
+  accessSubDir = imgDir+"access/"
+  masterSubdir = imgDir+"master/"
+  for project in projects:
+    masterPath = masterSubdir+"/"+project['name']+"/"
+    accessPath = accessSubDir+"/"+project['name']+"/"
+    for item in items:
+      fileList = []
+      if item['project_id'] == project['project_id']:
+        fileList.append({ 'path': masterPath+project['name']+"_"+padZeros(str(item['item_index']))+str(item['item_index'])+".jpg", 'width': 0, 'height': 0})
+        fileList.append({ 'path': accessPath+project['name']+"_"+padZeros(str(item['item_index']))+str(item['item_index'])+"-thumb.jpg", 'width': 300, 'height': 300})
+        fileList.append({ 'path' : accessPath+project['name']+"_"+padZeros(str(item['item_index']))+str(item['item_index'])+"-custom.jpg", 'width': 800, 'height': 800})
+        fileList.append({ 'path' : accessPath+project['name']+"_"+padZeros(str(item['item_index']))+str(item['item_index'])+"-2000.jpg", 'width': 2000, 'height': 2000})
+        fileList.append({ 'path' :accessPath+project['name']+"_"+padZeros(str(item['item_index']))+str(item['item_index'])+"-full.jpg", 'width': 0, 'height': 0})
+      for file in fileList:
+        generate_image(file['path'], file['width'], file['height'])
+
+        
