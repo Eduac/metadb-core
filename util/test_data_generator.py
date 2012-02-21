@@ -62,6 +62,12 @@ import string
 from PIL import Image, ImageDraw
 
 '''
+Return a number added with enough zeros so it has the maximum number of digits
+'''
+def padZeros(itemIndex, maxDigits):
+  return "".join(list('0' for i in xrange(maxDigits-len(str(itemIndex)))))+str(itemIndex)
+
+'''
 Generates a dummy image of size widthxlength at path.
 '''
 def generate_image(path, width, length):
@@ -534,9 +540,6 @@ generateImages = str(raw_input("Generate test images? (y/n)"))
 while generateImages != "y" and generateImages != "n":
   generateImages = raw_input("Generate test images? Please type y or n.")
 
-def padZeros(itemIndex, maxDigits):
-  return "".join(list('0' for i in xrange(maxDigits-len(str(itemIndex)))))+str(itemIndex)
-
 if generateImages=="y":
   imgDir = "/opt/metadb/"
   accessSubDir = imgDir+"access/"
@@ -547,8 +550,8 @@ if generateImages=="y":
     for item in items:
       fileList = []
       if item['project_id'] == project['project_id']:
-        access_file_common_part = accessPath + project['name']+"-"+str(item['item_index'])+"-"+padZeros(item['item_index'])
-        master_file_common_part = masterPath + project['name']+"-"+str(item['item_index'])+"-"+padZeros(item['item_index'])
+        access_file_common_part = accessPath + project['name']+"-"+str(item['item_index'])+"-"+padZeros(item['item_index'], 6)
+        master_file_common_part = masterPath + project['name']+"-"+str(item['item_index'])+"-"+padZeros(item['item_index'], 6)
 
         fileList.append({ 'path': master_file_common_part+".tiff", 'width': 0, 'height': 0})
         fileList.append({ 'path': access_file_common_part+"-thumb.jpg", 'width': 300, 'height': 300})
