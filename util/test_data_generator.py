@@ -547,11 +547,19 @@ if generateImages=="y":
   for project in projects:
     masterPath = masterSubdir+"/"+project['name']+"/"
     accessPath = accessSubDir+"/"+project['name']+"/"
+    
+    try:
+      os.makedirs(masterPath)
+      os.makedirs(accessPath)
+    except OSError, e:
+      if e.errno != errno.EEXIST:
+        raise
+
     for item in items:
       fileList = []
       if item['project_id'] == project['project_id']:
-        access_file_common_part = accessPath + project['name']+"-"+str(item['item_index'])+"-"+padZeros(item['item_index'], 6)
-        master_file_common_part = masterPath + project['name']+"-"+str(item['item_index'])+"-"+padZeros(item['item_index'], 6)
+        access_file_common_part = accessPath + project['name']+"-"+padZeros(item['item_index'], 6)
+        master_file_common_part = masterPath + project['name']+"-"+padZeros(item['item_index'], 6)
 
         fileList.append({ 'path': master_file_common_part+".tiff", 'width': 0, 'height': 0})
         fileList.append({ 'path': access_file_common_part+"-thumb.jpg", 'width': 300, 'height': 300})
