@@ -59,8 +59,11 @@ import uuid
 import hashlib 
 import re
 import string
+import os
+import errno
 from PIL import Image, ImageDraw
 
+ITEMS_PER_PROJ = 50
 '''
 Return a number added with enough zeros so it has the maximum number of digits
 '''
@@ -70,6 +73,16 @@ def padZeros(itemIndex, maxDigits):
 '''
 Generates a dummy image of size widthxlength at path.
 '''
+
+def generate_image(path, width, length):
+  if width == 0 or length == 0:
+    width, length = 3000, 3000
+    box = (0, 0, width, length)
+    im = Image.new('RGBA', (width, length), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(im)
+    draw.rectangle(box, fill=tuple(random.randint(0, 255) for i in xrange(4)))
+    im.save(path)
+
 def generate_image(path, width, length):
   im = Image.new('RGB', (width, length), tuple(random.randint(0,255) for i in xrange(4)))
   im.save(path)
@@ -382,7 +395,7 @@ for project in projects:
 ###
 items = []
 for project_feature in project_features:
-		for i in range(10):
+		for i in range(ITEMS_PER_PROJ):
 				items.append(
 					{
 						'item_id' : uuid.uuid4().hex,
@@ -536,7 +549,7 @@ for command in createCommands:
 	setupScript.write(command['query']+'\n')
 setupScript.close()
 
-generateImages = str(raw_input("Generate test images? (y/n)"))
+generateImages = str(raw_input("Generate test images? y/n"))
 while generateImages != "y" and generateImages != "n":
   generateImages = raw_input("Generate test images? Please type y or n.")
 
@@ -555,20 +568,20 @@ if generateImages=="y":
       if e.errno != errno.EEXIST:
         raise
 
-    for item in items:
+    # NOTE: Number of items is hardcoded here.
+    for itemIndex in range(1, ITEMS_PER_PROJ+1):
       fileList = []
-      if item['project_id'] == project['project_id']:
-        access_file_common_part = accessPath + project['name']+"-"+padZeros(item['item_index'], 6)
-        master_file_common_part = masterPath + project['name']+"-"+padZeros(item['item_index'], 6)
-
-        fileList.append({ 'path': master_file_common_part+".tiff", 'width': 0, 'height': 0})
-        fileList.append({ 'path': access_file_common_part+"-thumb.jpg", 'width': 300, 'height': 300})
-        fileList.append({ 'path': access_file_common_part+"-custom.jpg", 'width': 800, 'height': 800})
-        fileList.append({ 'path': access_file_common_part+"-2000.jpg", 'width': 2000, 'height': 2000})
-        fileList.append({ 'path': access_file_common_part+"-full.jpg", 'width': 0, 'height': 0})
+      access_file_common_part = accessPath + project['name']+"-"+padZeros(itemIndex, 6)
+      master_file_common_part = masterPath + project['name']+"-"+padZeros(itemIndex, 6)
+      
+      fileList.append({ 'path': master_file_common_part+".tiff", 'width': 0, 'height': 0})
+      fileList.append({ 'path': access_file_common_part+"-thumb.jpg", 'width': 300, 'height': 300})
+      fileList.append({ 'path': access_file_common_part+"-custom.jpg", 'width': 800, 'height': 800})
+      fileList.append({ 'path': access_file_common_part+"-2000.jpg", 'width': 2000, 'height': 2000})
+      fileList.append({ 'path': access_file_common_part+"-full.jpg", 'width': 0, 'height': 0})
       
       for file in fileList:
         print file['path']
-        #generate_image(file['path'], file['width'], file['height'])
+        generate_image(file['path'], file['width'], file['height'])
 
         
