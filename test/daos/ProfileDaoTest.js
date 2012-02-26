@@ -60,5 +60,17 @@ vows.describe('ProfileDao').addBatch({
                 setTimeout(function () { profileDao.deleteById(profile.id, callback); }, 100);
             }
         }
+    },
+    'after getting all users' : {
+      topic : function () {
+        var promise = new events.EventEmitter();
+        profileDao.getAllUsers(function (users) {
+          promise.emit('success', users);
+        });
+        return promise;
+      },
+      'should have at least 2 users' : function (users) {
+        assert.ok(users.length >= 2);
+      }
     }
 }).export(module);
