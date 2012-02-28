@@ -9,11 +9,13 @@ var njrpc = require('njrpc')
 	    VocabDao : require('./models/daos/VocabDao'),
 	    ProfileDao: require('./models/daos/ProfileDao'),
 	    SessionDao: require('./models/daos/SessionDao')   
+
 	}
 
 ,	handlers = [ 
 		new (require('./models/handlers/AuthenticationHandler'))(daoList.AuthenticationDao, daoList.SessionDao, daoList.ProfileDao),
-		new (require('./models/handlers/VocabHandler'))(daoList.VocabDao)
+		new (require('./models/handlers/VocabHandler'))(daoList.VocabDao),
+    new (require('./models/handlers/ProfileHandler'))(daoList.ProfileDao)
     ];
 
 njrpc.register(handlers);
