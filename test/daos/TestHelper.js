@@ -66,6 +66,17 @@ var TestHelper = function() {
 			vocab_id : vocab.vocab_id,
 		}
 	}
-	}
+,   getTestProjectMetadata : function (project) {
+        return {
+            project_id : project.project_id,
+            derivative : 'thumbnail',
+            width : 300,
+            height : 300,
+            brand : 'under',
+            background_color : '000000',
+            foreground_color : 'FFFFFF'
+        }
+    }
+    }
 };
 module.exports = new TestHelper();
