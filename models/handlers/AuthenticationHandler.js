@@ -4,7 +4,7 @@ var SESSION_TIMEOUT = 60000 * 30
 	return {
 		name : 'AuthenticationHandler',
 		
-		//Auth success -> return new session ID
+		//Auth success -> return new session
 		//Auth failure -> return null
 		//TODO: Try-Catch 
 		authenticate : function (username, password, outFn) {

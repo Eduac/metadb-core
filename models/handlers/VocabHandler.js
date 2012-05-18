@@ -2,8 +2,8 @@ var VocabHandler = function (vocabDao) {
     return {
         name : 'VocabHandler', 
         
-        create: function (vocabObj) {
-                vocabDAO.createVocab(vocabName, contents);
+        create: function (vocab) {
+                vocabDao.createVocab(vocab, contents);
         },
         
         findById: function (id) {
